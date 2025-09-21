@@ -53,13 +53,19 @@ export default function Header() {
             Products
           </Link>
           <Link
-            href="/categories"
+            href="/products/categories"
             className="text-gray-800 font-medium hover:text-blue-700 transition"
           >
             Categories
           </Link>
           <Link
-            href="/cart"
+            href="/wishlist"
+            className="text-gray-800 font-medium hover:text-blue-700 transition"
+          >
+            Wishlist
+          </Link>
+          <Link
+            href="/summaryPage"
             className="text-gray-800 font-medium hover:text-blue-700 transition"
           >
             <CartButton/>
