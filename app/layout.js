@@ -1,6 +1,8 @@
 import '../styles/globals.css';
 import Header from'../components/Header'
 import ReduxProvider from "../redux/ReduxProvider";
+import "@radix-ui/themes/styles.css";
+import { Theme } from '@radix-ui/themes';
 
 
 export const metadata = {
@@ -14,9 +16,12 @@ export default function RootLayout({ children }) {
       <body>
         <div>
           <ReduxProvider>
-
           <div><Header /></div>
+            <Theme>
+ 
             <main> {children}</main>
+            </Theme>
+
           </ReduxProvider>
         
 

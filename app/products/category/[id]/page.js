@@ -7,22 +7,57 @@ import ItemsByCategory from "@/components/ItemsByCategory";
 
 export default function () {
   const [data, setData] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const [hasData, setHasData] = useState(true);
 
   const pathName = usePathname();
   const segment = pathName.split("/").filter(Boolean);
   const last = segment[segment.length - 1];
 
-  useEffect(() => {
-    async function fetchData() {
-      if (!last) return;
+  useEffect(()=>{
+    fetchData();
+  },[]);
 
-      const res = await api.get(`/category/${last}?limit=10`);
-      const result = res.data;
-      setData(result);
+  async function fetchData() {
+    if (!hasData) {
+      return;
     }
 
-    fetchData();
-  }, [last]);
+    try {
+      const res = await api.get(`/category/${last}?limit=12&skip=${skip}`);
+      const result = res.data.products;
+      console.log("result",result);
+      setData(prev => [...prev, ...result]);
+      setSkip((prev) => prev + 12);
+      if (result.length == 0) {
+        setHasData(false);
+      }
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  useEffect(() => {
+    if (!last) {
+      return;
+    }
+    const handleScroll = ()=>{
+  if (
+      window.innerHeight + document.documentElement.scrollTop >=
+      document.documentElement.offsetHeight - 30
+    ) {
+      fetchData();
+    }
+
+    };
+ 
+  
+
+  window.addEventListener("scroll",handleScroll)
+  return ()=> removeEventListener("scroll",handleScroll)}
+
+   
+  , [last, skip,data]);
 
   return (
     <div className="">
@@ -35,14 +70,12 @@ export default function () {
         {data.length === 0 ? (
           <p>no product found</p>
         ) : (
-          data.products.map((items) => {
-            {
-              console.log("items.id: ");
-            }
+          data.map((items,index) => {
+           
             return (
-              <div className="" id={items.id}>
+              <div className="" key={`${items.id}-${index}`} >
                 {" "}
-                {<ItemsByCategory props={items} />}
+                {<ItemsByCategory  props={items} />}
               </div>
             );
           })

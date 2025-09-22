@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 export default function CartButton() {
   const totalItems = useSelector(state=> state?.addToCart?.cartItems);
-  console.log(totalItems,"tottal items");
   return (
     <button className=" relative rounded-full p-2 bg-100 text-gray-700 mr-3  flex items-center justify-center   transform transition duration-300 hover:scale-115 hover:bg-gray-300">
       <ShoppingCartIcon className="h-7 w-7 text-gray-700 " />

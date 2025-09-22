@@ -1,5 +1,9 @@
-export default function products(){
-    return <div>products
-        
+import Products from "@/components/Products";
+export default function products() {
+  return (
+    <div>
+      products
+      <Products />
     </div>
+  );
 }
