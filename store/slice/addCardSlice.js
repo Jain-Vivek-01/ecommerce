@@ -16,8 +16,9 @@ const addCardSlice = createSlice({
             if(existingItem){
                 existingItem.quantity += 1;
 
-            }else{
+            }else{action.payload.quantity = +1;
                 state.cartItems.push(action.payload);
+
                 
 
             }

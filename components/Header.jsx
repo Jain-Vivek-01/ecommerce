@@ -5,15 +5,21 @@ import { searchItem } from "@/store/slice/searchSlice";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import CartButton from "./CartButton";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function Header() {
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
+  const router = useRouter();
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(searchItem(value));
     setValue("");
+    router.push(`/products/search?q=${encodeURIComponent(value)}`);
+
   };
 
   return (

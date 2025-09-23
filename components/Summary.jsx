@@ -40,7 +40,7 @@ const dispatch = useDispatch();
     );
   }, [data]);
 
-
+{if(!data || data.length==0)return<p>Cart is empty</p>}
 
   return (
     <div className="max-w-9xl  mx-auto px-4  flex justify-between divide-x  sm:w-xl md:w-3xl lg:w-7xl ">
@@ -79,7 +79,7 @@ const dispatch = useDispatch();
                   <MinusIcon className="h-3 w-3" />
                 </button>
                 <span className="font-semibold block border text-gray-500 m-3 p-1 w-6 h-8 text-center">
-                  {items.quantity}
+                  { items.quantity?? 0}
                 </span>
                 <button onClick={()=>dispatch(addCard(items))} className="text-gray-600 border rounded-full m-3 p-1 transform transition hover:scale-110 hover:bg-green-300">
                   <PlusIcon className="h-3 w-3" />
