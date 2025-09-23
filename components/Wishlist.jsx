@@ -35,7 +35,6 @@ export default function wishlist() {
               <span className="block font-semibold truncate max-w-[200px] hover:underline">
                 {item.title}
               </span>
-              
             </Link>
             <span className="text-sm text-gray-500">{item.category}</span>
           </div>
