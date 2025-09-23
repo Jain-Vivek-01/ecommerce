@@ -1,15 +1,7 @@
-import FinalProductPage from "@/components/FinalProductPage"
+import FinalProductPage from "@/components/FinalProductPage";
 
-export default async function FinalProduct({params}){
+export default function FinalProduct({ params }) {
+  const { id } = params;
 
-    const {id}= await params
-
-   
- return(
- <div>
-    
-    <FinalProductPage id={id}/>
-    </div>
- )
-
+  return <FinalProductPage id={id} />;
 }

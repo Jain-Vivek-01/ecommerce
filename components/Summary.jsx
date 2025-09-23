@@ -7,22 +7,18 @@ import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
 import { addCard,removeFromCart } from "@/store/slice/addCardSlice";
 
 export default function Summary() {
-  const data = useSelector((state) => state.addToCart.cartItems);
-  console.log("summary data",data);
-
-  if (!data || data.length === 0) {
-    return <p className="text-gray-500 text-lg">Your cart is empty</p>;
-  }
-
+  const cartData = useSelector((state) => state.addToCart.cartItems);
+  
 const dispatch = useDispatch();
 
 
   const cartSummary = useMemo(() => {
-    return data.reduce(
+    return cartData.reduce(
       (sum, item) => {
         const quantity = Number(item?.quantity) || 0;
         const price = Number(item?.price) || 0;
-        const discount = Number(item?.discount) || 0;
+        const discount = Number(item?.discountPercentage
+) || 0;
 
         sum.totalQuantity += quantity;
         sum.totalPriceBeforeDiscount += price * quantity;
@@ -38,22 +34,32 @@ const dispatch = useDispatch();
         finalPrice: 0,
       }
     );
-  }, [data]);
+  }, [cartData]);
 
-{if(!data || data.length==0)return<p>Cart is empty</p>}
+{if(!cartData || cartData.length==0)return
+
+<div className="bg-red-300">
+
+  <p >
+    Cart is emptyy
+</p>
+</div>}
+
 
   return (
     <div className="max-w-9xl  mx-auto px-4  flex justify-between divide-x  sm:w-xl md:w-3xl lg:w-7xl ">
       <div className="divide-y w-200 sm:w-400 lg:w-500 xl:600 p-2 sm:p-4 lg:p-6 lg:p-8">
-        {data.map((items) => {
+        {cartData?.map((items) => {
+
+          
           const discountedPrice = (
             items.price -
-            (items.price * items.discount) / 100
+            (items.price * items.discountPercentage
+) / 100
           ).toFixed(2);
 
           return (
             <div key={items.id} className="flex items-center gap-4 py-4">
-              {/* Image */}
               <Link href={`/products/${items.id}`}>
                 <Image
                   src={items.images[0]}
@@ -64,7 +70,6 @@ const dispatch = useDispatch();
                 />
               </Link>
 
-              {/* Details */}
               <div className="flex-1">
                 <Link href={`/products/${items.id}`}>
                   <span className="block font-semibold truncate max-w-[200px] hover:underline">
@@ -86,7 +91,6 @@ const dispatch = useDispatch();
                 </button>
               </div>
 
-              {/* Price */}
               <div className="text-right">
                 <span className="line-through text-gray-400 block">
                   ${items.price.toFixed(2)}
@@ -95,7 +99,7 @@ const dispatch = useDispatch();
                   ${discountedPrice}
                 </span>
                 <span className="text-green-600 font-bold text-sm">
-                  {items.discount}% off
+                  {items.discountPercentage}% off
                 </span>
               </div>
             </div>
@@ -120,7 +124,7 @@ const dispatch = useDispatch();
               {`-${cartSummary.totalDiscount.toFixed(0)}`}
             </span>
           </div>
-          <div className="flex justify-between font-bold text-lg border-t border-b border-gray-200 lg:p-1 lg:m-1 xl:p-2 xl:m-2 ">
+          <div className="flex justify-between font-bold text-lg border-t border-b border-gray-200 lg:p-1 lg:m-1 xl:p-2 xl:m-2 text-gray-700">
             <span className="">Total Amount </span>
             <span>{cartSummary.finalPrice.toFixed(0)}</span>
           </div>

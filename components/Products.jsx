@@ -6,7 +6,7 @@ import ItemsByCategory from "./ItemsByCategory";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 
 export default function Products() {
-  const [data, setData] = useState([]);
+  const [productData, setProductData] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasData, setHasData] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -19,14 +19,13 @@ export default function Products() {
       const res = await api.get(`?limit=10&skip=${skip}`);
       const result = res.data.products || [];
 
-      setData((prev) => [...prev, ...result]);
+      setProductData((prev) => [...prev, ...result]);
       setSkip((prev) => prev + 10);
 
       if (result.length === 0) {
         setHasData(false);
       }
     } catch (err) {
-      console.log("err in product", err);
     } finally {
       setLoading(false);
     }
@@ -53,20 +52,17 @@ export default function Products() {
     };
   }, []);
 
+  console.log(productData, "-------");
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-
-     
-
-
-      {data?.map((item, i) => (
-        <ItemsByCategory key={`${item.id}-${i}`} props={item}  />
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      {productData?.map((item, i) => (
+        <ItemsByCategory key={`${item.id}-${i}`} props={item} loading={false} />
       ))}
 
-      {loading && Array.from({length:12}).map((_,index)=>(
-        <ItemsByCategory key={index} loading={loading}  />
-      ))}
-
+      {loading &&
+        Array.from({ length: 12 }).map((_, index) => (
+          <ItemsByCategory key={index} loading={loading} />
+        ))}
 
       {!hasData && (
         <p className="col-span-full text-center">No more products</p>

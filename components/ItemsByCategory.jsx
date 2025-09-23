@@ -8,14 +8,14 @@ import { addCard } from "@/store/slice/addCardSlice";
 import { useDispatch } from "react-redux";
 import { Skeleton } from "@radix-ui/themes";
 
-export default function ItemsByCategory({ props,loading,contentLoader =false }) {
+export default function ItemsByCategory({ props, loading }) {
   const [imageNumber, setImageNumber] = useState(0);
   const dispatch = useDispatch();
 
   return (
     <div className="relative mx-auto w-70">
       <button
-        className="absolute -left-1 top-1/3 z-10 transform -translate-y-1/2 bg-white p-1 rounded-full shadow hover:bg-gray-100 transition"
+        className="absolute -left-1 top-1/3 z-30 transform -translate-y-1/2 bg-white p-1 rounded-full shadow hover:bg-gray-100 transition"
         onClick={() => setImageNumber((prev) => Math.max(prev - 1, 0))}
       >
         <ArrowLeftIcon className="w-4 h-4  text-red-900" />
@@ -25,28 +25,29 @@ export default function ItemsByCategory({ props,loading,contentLoader =false }) 
         <div className="relative cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden m-2 hover:shadow-2xl transition-shadow duration-300">
           <div className="relative w-70 h-60">
             {loading ? (
-              <Skeleton   width="100%"
-            style={{ height: "100%", borderRadius: "8px", backgroundColor: "#e5e7eb"  }} />
-            ):(
-
-              props?.images?.[imageNumber] &&(
-               <Image
-              src={props?.images?.[imageNumber]}
-              alt={`${props?.category} image`}
-              fill
-              className="object-contain relative z-10 bg-gray-200"
-              sizes="100px"
-            />
-            )
-  
+              <Skeleton
+                width="100%"
+                style={{
+                  height: "100%",
+                  borderRadius: "8px",
+                  backgroundColor: "#e5e7eb",
+                }}
+              />
+            ) : (
+              props?.images?.[imageNumber] && (
+                <Image
+                  src={props?.images?.[imageNumber]}
+                  alt={`${props?.category} image`}
+                  fill
+                  className="object-contain relative z-10 bg-gray-200"
+                  sizes="100px"
+                />
+              )
             )}
-
-          
-           
           </div>
-          
-          <h2 className="text-sm font-bold text-gray-800 p-2"><Skeleton loading= { contentLoader } >{props?.title} </Skeleton></h2>{" "}
-         
+          <h2 className="text-sm font-bold text-gray-800 p-2">
+            <Skeleton loading={loading}>{props?.title} </Skeleton>
+          </h2>{" "}
         </div>
       </Link>
 
@@ -68,17 +69,16 @@ export default function ItemsByCategory({ props,loading,contentLoader =false }) 
             )}
           </span>
 
-            {loading? (<Skeleton className="h-5 w-10 bg-gray-600"/>):(
-
-              <button
-            onClick={() => dispatch(addCard(props))}
-            className="z-30 bg-blue-300 p-1 rounded-lg transform transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-blue-500 px-2 text-xs"
-          >
-            Add to cart
-          </button>
-            )}
-
-          
+          {loading ? (
+            <Skeleton className="h-5 w-10 bg-gray-600" />
+          ) : (
+            <button
+              onClick={() => dispatch(addCard(props))}
+              className="z-30 bg-blue-300 p-1 rounded-lg transform transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-blue-500 px-2 text-xs"
+            >
+              Add to cart
+            </button>
+          )}
         </div>
       </div>
 
@@ -88,8 +88,8 @@ export default function ItemsByCategory({ props,loading,contentLoader =false }) 
           setImageNumber((prev) => Math.min(prev + 1, props?.images.length - 1))
         }
       >
-        <ArrowRightIcon className="w-4 h-4 text-red-900 text-gray-700" />
+        <ArrowRightIcon className="size-4 text-red-900 text-gray-700" />
       </button>
     </div>
-  );}
-
+  );
+}

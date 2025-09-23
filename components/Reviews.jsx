@@ -24,7 +24,9 @@ export default function Reviews({ reviews = [] }) {
               <StarIcon
                 key={i}
                 className={`h-5 w-5 ${
-                  i < Math.round(avgRating) ? "text-yellow-400" : "text-gray-300"
+                  i < Math.round(avgRating)
+                    ? "text-yellow-400"
+                    : "text-gray-300"
                 }`}
               />
             ))}
@@ -61,7 +63,6 @@ export default function Reviews({ reviews = [] }) {
             <p className="text-gray-600 text-sm leading-relaxed">
               {review.comment || "No comment provided."}
             </p>
-          
           </div>
         ))}
       </div>
