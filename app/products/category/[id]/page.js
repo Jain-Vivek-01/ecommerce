@@ -33,7 +33,7 @@ export default function Category() {
         const newItems = result.filter(item => !newData.map(item => item.id).includes(item.id))
         return([...newData, ...newItems])
       })
-
+   
 
       
       setSkipProducts((prev) => prev + 12);
@@ -56,7 +56,7 @@ export default function Category() {
     const handleScroll = () => {
       if (
         window.innerHeight + window.scrollY >=
-          document.documentElement.scrollHeight - 50 &&
+          document.documentElement.offsetHeight - 50 &&
         hasData &&
         !loading
       ) {
