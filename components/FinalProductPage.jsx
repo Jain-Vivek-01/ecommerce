@@ -74,7 +74,7 @@ export default function FinalProductPage({ id }) {
       <div className="bg-white min-h-[65vh] py-5 px-5 mx-40 grid grid-cols-[1fr_2fr] gap-6 rounded-lg shadow">
         <div>
           <Skeleton loading={loader}>
-            <div className="relative bg-white h-64 w-64 ml-10 rounded-lg shadow">
+            <div className="relative bg-white h-64 w-64 ml-10 rounded-lg shadow ">
               <button
                 onClick={handlePrev}
                 className="absolute z-0 top-1/2 left-0 transform -translate-y-1/2"
@@ -102,7 +102,7 @@ export default function FinalProductPage({ id }) {
                   src={productData?.images?.[imageNumber]}
                   alt={productData.category}
                   fill
-                  className="object-contain p-2 pointer-events-none"
+                  className="object-contain p-2 pointer-events-none "
                   sizes="(max-width: 768px) 100vw, 400px"
                   priority
                 />
@@ -114,8 +114,7 @@ export default function FinalProductPage({ id }) {
             {Array.from({ length: 3 }).map((_, index) => (
               <Skeleton
                 loading={loader}
-                height="75px"
-                width="75px"
+                sizes="75"
                 className="mt-4"
                 key={index}
               />
@@ -124,7 +123,7 @@ export default function FinalProductPage({ id }) {
               <div
                 key={i}
                 className={clsx(
-                  "relative h-20 w-20 border rounded-md m-1 cursor-pointer overflow-hidden",
+                  "relative h-20 w-20 border rounded-md m-1 cursor-pointer overflow-hidden p-1",
                   i === imageNumber
                     ? "border-2 border-blue-400"
                     : "border-gray-300"

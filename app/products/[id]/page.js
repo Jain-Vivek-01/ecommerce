@@ -1,7 +1,7 @@
 import FinalProductPage from "@/components/FinalProductPage";
 
-export default function FinalProduct({ params }) {
-  const { id } = params;
+export default async function FinalProduct({ params }) {
+  const { id } = await params;
 
   return <FinalProductPage id={id} />;
 }
