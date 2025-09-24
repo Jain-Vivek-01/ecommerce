@@ -1,33 +1,50 @@
 "use client";
 
 import api from "@/lib/axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ItemsByCategory from "./ItemsByCategory";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 
 export default function Products() {
   const [productData, setProductData] = useState([]);
-  const [skip, setSkip] = useState(0);
   const [hasData, setHasData] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const isFetchingRef = useRef(false);
+  const SkikProductRef = useRef(0);
 
   async function fetchResponse() {
-    if (!hasData || loading) return;
+    if (!hasData || isFetchingRef.current) return;
 
     try {
-      setLoading(true);
-      const res = await api.get(`?limit=10&skip=${skip}`);
-      const result = res.data.products || [];
+      isFetchingRef.current = true;
 
-      setProductData((prev) => [...prev, ...result]);
-      setSkip((prev) => prev + 10);
+      const increment = SkikProductRef.current;
 
-      if (result.length === 0) {
+      const res = await api.get(`?limit=12&skip=${increment}`); 
+
+      const result = res.data.products;
+      SkikProductRef.current += result.length;
+
+      setProductData((prev) => {
+        const existingIds = new Set(prev.map((i) => i.id));
+        const newItems = result.filter((item) => !existingIds.has(item.id));
+        return [...prev, ...newItems];
+      });
+
+      // setProductData(prev => {
+
+      //   const data = [...prev];
+      //   const newItems = result.filter(item=> !data.map(i=> i.id).includes(item.id));
+      //   return([...data,...newItems]);
+
+      // })
+
+      if (result.length < 12) {
         setHasData(false);
       }
     } catch (err) {
+      console.log("err in product", err);
     } finally {
-      setLoading(false);
+      isFetchingRef.current = false;
     }
   }
 
@@ -39,7 +56,7 @@ export default function Products() {
     const handleScroll = () => {
       if (
         window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 100
+        document.documentElement.scrollHeight - 50
       ) {
         fetchResponse();
       }
@@ -50,18 +67,17 @@ export default function Products() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [hasData, SkikProductRef]);
 
-  console.log(productData, "-------");
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
       {productData?.map((item, i) => (
         <ItemsByCategory key={`${item.id}-${i}`} props={item} loading={false} />
       ))}
 
-      {loading &&
+      {isFetchingRef.current &&
         Array.from({ length: 12 }).map((_, index) => (
-          <ItemsByCategory key={index} loading={loading} />
+          <ItemsByCategory key={index} loading={isFetchingRef.current} />
         ))}
 
       {!hasData && (
