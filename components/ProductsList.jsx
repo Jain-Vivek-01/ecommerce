@@ -19,7 +19,7 @@ export default function Products() {
 
       const increment = SkikProductRef.current;
 
-      const res = await api.get(`?limit=12&skip=${increment}`); 
+      const res = await api.get(`?limit=12&skip=${increment}`);
 
       const result = res.data.products;
       SkikProductRef.current += result.length;
@@ -70,27 +70,33 @@ export default function Products() {
   }, [hasData, SkikProductRef]);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      {productData?.map((item, i) => (
-        <ItemsByCategory key={`${item.id}-${i}`} props={item} loading={false} />
-      ))}
-
-      {isFetchingRef.current &&
-        Array.from({ length: 12 }).map((_, index) => (
-          <ItemsByCategory key={index} loading={isFetchingRef.current} />
+    <div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 shadow-lg">
+        {productData?.map((item, i) => (
+          <ItemsByCategory
+            key={`${item.id}-${i}`}
+            props={item}
+            loading={false}
+          />
         ))}
 
-      {!hasData && (
-        <p className="col-span-full text-center">No more products</p>
-      )}
-      <button
-        className="fixed bg-blue-200 bottom-1 right-1/2 text-white px-4 py-2 rounded-lg hover:bg-blue-400 transition-all transform hover:scale-110 z-30"
-        onClick={() => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      >
-        <ArrowUpIcon className="w-6 h-6 text-white" />
-      </button>
+        {isFetchingRef.current &&
+          Array.from({ length: 12 }).map((_, index) => (
+            <ItemsByCategory key={index} loading={isFetchingRef.current} />
+          ))}
+
+        {!hasData && (
+          <p className="col-span-full text-center">No more products</p>
+        )}
+        <button
+          className="fixed bg-blue-200 bottom-1 right-1/2 text-white px-4 py-2 rounded-lg hover:bg-blue-400 transition-all transform hover:scale-110 z-30"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <ArrowUpIcon className="w-6 h-6 text-white" />
+        </button>
+      </div>
     </div>
   );
 }

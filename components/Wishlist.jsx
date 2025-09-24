@@ -15,9 +15,11 @@ export default function wishlist() {
   }
 
   return (
-    <div className="divide-y">
+     <div className="flex  min-h-screen justify-center bg-gray-100 ">
+    <div className="divide-y p-10 shadow-lg rounded-lg">
+     
       {wishlist.map((item) => (
-        <div key={item.id} className="flex items-center gap-4 py-4">
+        <div key={item.id} className="flex items-center rounded-lg my-3 justify-around gap-8 py-4 bg-gray-200 transition duration-300 hover:bg-white ">
           {/* Image */}
           <Link href={`/products/${item.id}`}>
             <Image
@@ -30,7 +32,7 @@ export default function wishlist() {
           </Link>
 
           {/* Details */}
-          <div className="flex-1">
+          <div className="flex-1  mr-10">
             <Link href={`/products/${item.id}`}>
               <span className="block font-semibold truncate max-w-[200px] hover:underline">
                 {item.title}
@@ -41,7 +43,7 @@ export default function wishlist() {
           <div className="h-20 w-35">
             <button
               onClick={() => dispatch(addCard(item))}
-              className="border bg-blue-300 text-white font-semibold tracking-wide transform translation-all duration-300 hover:scale-110 hover:bg-blue-500 hover:shadow-wide p-2 rounded-lg m-2"
+              className="border bg-blue-300 text-md text-white font-semibold tracking-wide transform translation-all duration-300 hover:scale-110 hover:bg-blue-500 hover:shadow-wide p-2 rounded-lg m-2"
             >
               Add to cart
             </button>
@@ -49,13 +51,14 @@ export default function wishlist() {
             {/* Remove button */}
             <button
               onClick={() => dispatch(removeFromWishlist(item.id))}
-              className="text-red-500 font-medium hover:underline ml-4"
+              className="text-red-300 font-medium transition hover:text-red-600 ml-4"
             >
               Remove
             </button>
           </div>
         </div>
       ))}
+    </div>
     </div>
   );
 }

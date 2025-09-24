@@ -29,12 +29,12 @@ export default function search() {
   return (
     <div className=" ">
       <div className="p-6">
-        <h2 className="text-center text-2xl md:text-3xl font-bold text-gray-800 bg-yellow-300 px-6 py-4 rounded-xl shadow-md max-w-2xl mx-auto">
+        <h2 className="text-center text-lg md:text-xl lg:text-2xl font-bold text-gray-800 bg-gray-300 px-6 py-4 rounded-xl w-80 md:w-100 lg:w-120  shadow-md max-w-2xl mx-auto">
           Getting results for <span className="text-gray-900">“{query}”</span>
         </h2>
       </div>
 
-      <div className="grid grid-cols-4 gap-2 ">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {loading
           ? Array.from({ length: 8 }).map((_, i) => (
               <ItemsByCategory key={`${i}`} loading={loading} />

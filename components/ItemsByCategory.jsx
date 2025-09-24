@@ -13,7 +13,7 @@ export default function ItemsByCategory({ props, loading }) {
   const dispatch = useDispatch();
 
   return (
-    <div className="relative mx-auto w-70">
+    <div className="relative mx-auto w-70 bg-gray-100 mb-4">
       <button
         className="absolute -left-1 top-1/3 z-30 transform -translate-y-1/2 bg-white p-1 rounded-full shadow hover:bg-gray-100 transition"
         onClick={() => setImageNumber((prev) => Math.max(prev - 1, 0))}
@@ -60,7 +60,7 @@ export default function ItemsByCategory({ props, loading }) {
           )}
         </p>
         <div className="flex items-center justify-between">
-          <span className="text-red-500 font-bold text-sm bg-yellow-100 px-2 py-1 rounded">
+          <span className="text-green-500 font-bold text-sm bg-red-100 px-2 py-1 rounded">
             {" "}
             {loading ? (
               <Skeleton className="h-4 w-1/4 rounded" />

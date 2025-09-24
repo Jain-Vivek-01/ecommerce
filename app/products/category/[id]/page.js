@@ -56,7 +56,7 @@ export default function Category() {
     const handleScroll = () => {
       if (
         window.innerHeight + window.scrollY >=
-          document.documentElement.offsetHeight - 50 &&
+          document.documentElement.scrollHeight - 50 &&
         hasData &&
         !loading
       ) {

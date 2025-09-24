@@ -4,58 +4,49 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
-import { addCard,removeFromCart } from "@/store/slice/addCardSlice";
+import { addCard, removeFromCart } from "@/store/slice/addCardSlice";
 
 export default function Summary() {
   const cartData = useSelector((state) => state.addToCart.cartItems);
-  
-const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
 
-  const cartSummary = useMemo(() => {
-    return cartData.reduce(
-      (sum, item) => {
-        const quantity = Number(item?.quantity) || 0;
-        const price = Number(item?.price) || 0;
-        const discount = Number(item?.discountPercentage
-) || 0;
+  const cartSummary = cartData.reduce(
+    (sum, item) => {
+      const quantity = Number(item?.quantity) || 0;
+      const price = Number(item?.price) || 0;
+      const discount = Number(item?.discountPercentage) || 0;
 
-        sum.totalQuantity += quantity;
-        sum.totalPriceBeforeDiscount += price * quantity;
-        sum.totalDiscount += ((price * discount) / 100) * quantity;
-        sum.finalPrice += (price - (price * discount) / 100) * quantity;
+      sum.totalQuantity += quantity;
+      sum.totalPriceBeforeDiscount += price * quantity;
+      sum.totalDiscount += ((price * discount) / 100) * quantity;
+      sum.finalPrice += (price - (price * discount) / 100) * quantity;
 
-        return sum;
-      },
-      {
-        totalQuantity: 0,
-        totalPriceBeforeDiscount: 0,
-        totalDiscount: 0,
-        finalPrice: 0,
-      }
-    );
-  }, [cartData]);
+      return sum;
+    },
+    {
+      totalQuantity: 0,
+      totalPriceBeforeDiscount: 0,
+      totalDiscount: 0,
+      finalPrice: 0,
+    }
+  );
 
-{if(!cartData || cartData.length==0)return
+  {
+    if (!cartData || cartData.length == 0) return;
 
-<div className="bg-red-300">
-
-  <p >
-    Cart is emptyy
-</p>
-</div>}
-
+    <div className="bg-red-300">
+      <p>Cart is emptyy</p>
+    </div>;
+  }
 
   return (
-    <div className="max-w-9xl  mx-auto px-4  flex justify-between divide-x  sm:w-xl md:w-3xl lg:w-7xl ">
-      <div className="divide-y w-200 sm:w-400 lg:w-500 xl:600 p-2 sm:p-4 lg:p-6 lg:p-8">
+    <div className="max-w-9xl mt-5 mx-auto px-4  flex justify-between divide-x  sm:w-xl md:w-3xl lg:w-7xl ">
+      <div className="divide-y w-200 sm:w-400 lg:w-500 xl:600 p-2 sm:p-4 lg:p-6 lg:p-8 bg-gray-200">
         {cartData?.map((items) => {
-
-          
           const discountedPrice = (
             items.price -
-            (items.price * items.discountPercentage
-) / 100
+            (items.price * items.discountPercentage) / 100
           ).toFixed(2);
 
           return (
@@ -80,13 +71,21 @@ const dispatch = useDispatch();
               </div>
 
               <div className="flex flex-1">
-                <button onClick={()=>{dispatch(removeFromCart(items))}}  className="text-gray-600 border rounded-full m-3 p-1 transform transition hover:scale-110 hover:bg-blue-300">
+                <button
+                  onClick={() => {
+                    dispatch(removeFromCart(items));
+                  }}
+                  className="text-gray-600 border rounded-full m-3 p-1 transform transition hover:scale-110 hover:bg-blue-300"
+                >
                   <MinusIcon className="h-3 w-3" />
                 </button>
-                <span className="font-semibold block border text-gray-500 m-3 p-1 w-6 h-8 text-center">
-                  { items.quantity?? 0}
+                <span className="font-semibold block border text-gray-500 m-3 p-1 min-w-6 h-8 text-center">
+                  {items.quantity ?? 0}
                 </span>
-                <button onClick={()=>dispatch(addCard(items))} className="text-gray-600 border rounded-full m-3 p-1 transform transition hover:scale-110 hover:bg-green-300">
+                <button
+                  onClick={() => dispatch(addCard(items))}
+                  className="text-gray-600 border rounded-full m-3 p-1 transform transition hover:scale-110 hover:bg-green-300"
+                >
                   <PlusIcon className="h-3 w-3" />
                 </button>
               </div>
