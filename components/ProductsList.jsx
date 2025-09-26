@@ -2,7 +2,7 @@
 
 import api from "@/lib/axios";
 import { useEffect, useState, useRef } from "react";
-import ItemsByCategory from "./ItemsByCategory";
+import ItemsByCategory from "./productDetailPage";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 
 export default function Products() {

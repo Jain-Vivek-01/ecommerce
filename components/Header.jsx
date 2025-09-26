@@ -5,6 +5,7 @@ import Link from "next/link";
 import CartButton from "./CartButton";
 import { useRouter } from "next/navigation";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import {UserDialog} from "@/app/users/login/page";
 
 export default function Header() {
   const [searchProduct, setSearchProduct] = useState("");
@@ -25,8 +26,9 @@ export default function Header() {
         >
           MyShop 🛒
         </Link>
+        <UserDialog />
 
-        <nav className="flex items-center space-x-6">
+        <nav className="flex items-center space-x-6 ml-70">
           <form
             onSubmit={handleSubmit}
             className="flex items-center bg-white rounded-full shadow px-3 py-1"

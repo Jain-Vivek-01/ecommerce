@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
-import ItemsByCategory from "@/components/ItemsByCategory";
+import ItemsByCategory from "@/components/productDetailPage";
 
 export default function search() {
   const [ProductData, setProductData] = useState([]);

@@ -2,12 +2,27 @@
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
-import { useMemo } from "react";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
-import { addCard, removeFromCart } from "@/store/slice/addCardSlice";
+import { addToCard, removeFromCart, removeProduct } from "@/store/slice/cart";
+import DeleteProductButton from "./radix-comonents/AlertDelete";
+import * as Dialog from "@radix-ui/react-dialog";
+import { useState } from "react";
 
 export default function Summary() {
-  const cartData = useSelector((state) => state.addToCart.cartItems);
+
+
+
+  const [orderDialogOpen,setOrderDialogOpen]= useState(false);
+
+
+  
+ 
+
+  function handleDelete(id) {
+    dispatch(removeProduct(id));
+  }
+
+  const cartData = useSelector((state) => state.cart.cartItems);
 
   const dispatch = useDispatch();
 
@@ -40,6 +55,11 @@ export default function Summary() {
     </div>;
   }
 
+  const handleOrder = ()=>{
+    console.log("order placed");
+    setOrderDialogOpen(true);
+  }
+
   return (
     <div className="max-w-9xl mt-5 mx-auto px-4  flex justify-between divide-x  sm:w-xl md:w-3xl lg:w-7xl ">
       <div className="divide-y w-200 sm:w-400 lg:w-500 xl:600 p-2 sm:p-4 lg:p-6 lg:p-8 bg-gray-200">
@@ -69,6 +89,9 @@ export default function Summary() {
                 </Link>
                 <span className="text-sm text-gray-500">{items.deliver}</span>
               </div>
+              <DeleteProductButton
+                handleClickDelete={() => handleDelete(items.id)}
+              />
 
               <div className="flex flex-1">
                 <button
@@ -83,7 +106,7 @@ export default function Summary() {
                   {items.quantity ?? 0}
                 </span>
                 <button
-                  onClick={() => dispatch(addCard(items))}
+                  onClick={() => dispatch(addToCard(items))}
                   className="text-gray-600 border rounded-full m-3 p-1 transform transition hover:scale-110 hover:bg-green-300"
                 >
                   <PlusIcon className="h-3 w-3" />
@@ -125,13 +148,39 @@ export default function Summary() {
           </div>
           <div className="flex justify-between font-bold text-lg border-t border-b border-gray-200 lg:p-1 lg:m-1 xl:p-2 xl:m-2 text-gray-700">
             <span className="">Total Amount </span>
-            <span>{cartSummary.finalPrice.toFixed(0)}</span>
+            <span>  <span className="text-xl text-green-400">$</span>   {`${cartSummary.finalPrice.toFixed(0)}`}</span>
           </div>
           <div className="text-green-600 font-medium text-center lg:p-1 lg:m-1 xl:p-2 xl:m-2">{`You will save $${cartSummary.totalDiscount.toFixed(
             0
           )} on this order`}</div>
+
+        </div>
+        <div className="flex justify-center">
+          <button onClick={handleOrder} className="bg-blue-300 w-38 font-semibold rounded-lg h-10 transition transform hover:scale-105 hover:bg-green-300">
+            Place order
+          </button>
         </div>
       </div>
+     < Dialog.Root open={orderDialogOpen} onOpenChange={setOrderDialogOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+          <Dialog.Content className="fixed left-1/2 top-1/2 max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-6 shadow-lg">
+            <Dialog.Title className="text-lg font-bold">
+              🎉 Congrats! Your order got placed
+            </Dialog.Title>
+            <Dialog.Description className="text-gray-600 mt-2">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
+              eaque neque optio? Architecto perspiciatis est officia dolorem,
+              magni nisi unde.
+            </Dialog.Description>
+            <Dialog.Close asChild>
+              <button className="mt-4 px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
+                Close
+              </button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </div>
   );
 }
