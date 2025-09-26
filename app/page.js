@@ -1,10 +1,5 @@
-'use client'
-import Image from "next/image";
-import styles from "./page.module.css";
-import { useSelector } from "react-redux";
+"use client";
 
 export default function Home() {
- 
-
-  return <div></div>;
+  return <div>home page</div>;
 }

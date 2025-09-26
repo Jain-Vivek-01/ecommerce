@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { addCard } from "@/store/slice/addCardSlice";
+import { addToCard } from "@/store/slice/cart";
 import { useDispatch } from "react-redux";
 import { Skeleton } from "@radix-ui/themes";
 
@@ -39,7 +39,7 @@ export default function ItemsByCategory({ props, loading }) {
                   src={props?.images?.[imageNumber]}
                   alt={`${props?.category} image`}
                   fill
-                  className="object-contain relative z-10 bg-gray-200"
+                  className="object-contain relative z-10 bg-gray-200 "
                   sizes="100px"
                 />
               )
@@ -73,7 +73,7 @@ export default function ItemsByCategory({ props, loading }) {
             <Skeleton className="h-5 w-10 bg-gray-600" />
           ) : (
             <button
-              onClick={() => dispatch(addCard(props))}
+              onClick={() => dispatch(addToCard(props))}
               className="z-30 bg-blue-300 p-1 rounded-lg transform transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-blue-500 px-2 text-xs"
             >
               Add to cart

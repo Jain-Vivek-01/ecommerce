@@ -1,9 +1,8 @@
-import '../styles/globals.css';
-import Header from'../components/Header'
+import "../styles/globals.css";
+import Header from "../components/Header";
 import ReduxProvider from "../redux/ReduxProvider";
 import "@radix-ui/themes/styles.css";
-import { Theme } from '@radix-ui/themes';
-
+import { Theme } from "@radix-ui/themes";
 
 export const metadata = {
   title: "Create Next App",
@@ -16,19 +15,13 @@ export default function RootLayout({ children }) {
       <body>
         <div>
           <ReduxProvider>
-          <div><Header /></div>
             <Theme>
- 
-            <main> {children}</main>
+
+              <Header />
+              <main> {children}</main>
             </Theme>
-
           </ReduxProvider>
-        
-
-
         </div>
-
-       
       </body>
     </html>
   );

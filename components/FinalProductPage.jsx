@@ -5,22 +5,24 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { addCard } from "@/store/slice/addCardSlice";
+import { addToCard } from "@/store/slice/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import { removeFromWishlist, addToWishlist } from "@/store/slice/wishlistSlice";
 import Reviews from "./Reviews";
 import { Skeleton } from "@radix-ui/themes";
+import SimilarProducts from "./SimilarProducts";
 
 export default function FinalProductPage({ id }) {
   const [imageNumber, setImageNumber] = useState(0);
   const [productData, setProductData] = useState({ images: [], reviews: [] });
   const [loader, setLoader] = useState(true);
 
-  const wishlist = useSelector((state) => state?.wishlist?.wishlistItems);
-  const isWishlisted = wishlist?.some((item) => item.id === productData.id);
+  const wishlistItems = useSelector((state) => state?.wishlist?.wishlistItems);
   const dispatch = useDispatch();
+
+  const isWishlisted = wishlistItems.some((product) => product.id == id);
 
   function handleWishlist() {
     if (isWishlisted) {
@@ -32,11 +34,11 @@ export default function FinalProductPage({ id }) {
 
   function handleAddCart() {
     dispatch(
-      addCard({
+      addToCard({
         id: productData.id,
         images: productData.images,
         price: productData.price,
-        discount: productData.discountPercentage,
+        discountPercentage: productData.discountPercentage,
         deliver: productData.shippingInformation,
         title: productData.title,
         quantity: 1,
@@ -77,9 +79,9 @@ export default function FinalProductPage({ id }) {
             <div className="relative bg-white h-64 w-64 ml-10 rounded-lg shadow ">
               <button
                 onClick={handlePrev}
-                className="absolute z-0 top-1/2 left-0 transform -translate-y-1/2"
+                className="absolute z-0 top-1/2 left-0 transform -translate-y-1/2 z-30"
               >
-                <ArrowLeftIcon className="h-6 w-6 hover:text-blue-20 hover:scale-110 transition" />
+                <ArrowLeftIcon className="h-6 w-6 hover:text-blue-600 hover:scale-110 transition" />
               </button>
 
               <button
@@ -102,7 +104,7 @@ export default function FinalProductPage({ id }) {
                   src={productData?.images?.[imageNumber]}
                   alt={productData.category}
                   fill
-                  className="object-contain p-2 pointer-events-none "
+                  className="object-contain p-2 z-10 tranform transition duration-300 hover:scale-350 hover:shadow-lg hover:translate-y-1/2"
                   sizes="(max-width: 768px) 100vw, 400px"
                   priority
                 />
@@ -196,8 +198,9 @@ export default function FinalProductPage({ id }) {
       </div>
 
       <div className="mx-40 mt-6">
-        <Reviews reviews={productData.reviews} />
+        <Reviews reviews={productData.reviews} productId = {productData.id} />
       </div>
+      <SimilarProducts tags={productData?.tags?.[0]} />
     </div>
   );
 }
